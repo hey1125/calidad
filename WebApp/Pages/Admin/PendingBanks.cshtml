@@ -1,0 +1,30 @@
+﻿@page
+@model WebApp.Pages.Admin.PendingBanksModel
+@{
+    ViewData["Title"] = "Bancos Pendientes";
+}
+
+@section Scripts {
+    <script src="~/js/pages/PendingBanks.js"></script>
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Entidades Financieras Pendientes de Aprobar</h2>
+
+    <div class="admin-table-container">
+        <table id="tblBancosPendientes" class="table table-bordered align-middle text-center"
+               ColumnsDataName="legalId,bankCode,name,status">
+            <thead class="table-light">
+                <tr>
+                    <th>Cédula Jurídica</th>
+                    <th>Código Banco</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,26 @@
+﻿@page
+@model WebApp.Pages.User.ActiveCommerceModel
+@{
+    ViewData["Title"] = "Comercios Registrados";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 fw-bold">Comercios Registrados</h2>
+
+    <div class="row" id="commerceContainer">
+        <!-- Las tarjetas se cargarán dinámicamente aquí -->
+    </div>
+
+    <!-- Mensaje cuando no hay comercios -->
+    <div id="noCommercesMessage" class="text-center mt-5 d-none">
+        <div class="alert">
+            <h5>No tienes comercios activas</h5>
+            <p>Los comercios aparecerán aquí una vez que sean aprobados por el administrador.</p>
+            <a href="/User/CreateCommerce" class="btn btn-primary">Registrar Nuevo Comercio</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/ActiveCommerceUser.js"></script>
+}

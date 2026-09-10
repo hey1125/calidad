@@ -1,0 +1,62 @@
+﻿@page
+@model WebApp.Pages.User.BankAccountsModel
+@{
+    ViewData["Title"] = "Cuentas Bancarias";
+}
+
+<div class="container mt-5">
+    <h2 id="welcome-title" class="fw-bold text-center mb-4">¡Bienvenido!</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <label class="form-label">Nombre de Titular</label>
+            <input type="text" class="form-control" id="titular" placeholder="Titular" disabled />
+
+            <label class="form-label mt-3">IBAN</label>
+            <input type="text" class="form-control" id="iban" placeholder="CR..." />
+
+            <button id="btn-agregar" class="btn btn-success mt-3 w-100">Agregar</button>
+        </div>
+    </div>
+
+    <h4 class="text-center mb-3">Cuentas Bancarias</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center" id="cuentas-table">
+            <thead>
+                <tr>
+                    <th>Titular</th>
+                    <th>IBAN</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="cuentas-body">
+            </tbody>
+        </table>
+
+    </div>
+    <div id="noBankAccountsMessage" class="alert alert-info text-center d-none">
+    Aún no tienes cuentas bancarias registradas.
+    </div
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/BankAccounts.js"></script>
+    <script>
+        
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            const fullName = `${user.firstName} ${user.lastName1}`;
+            document.getElementById("welcome-title").textContent = `Cuentas bancarias de ${fullName}`;
+            document.getElementById("titular").value = fullName;
+        } else {
+            document.getElementById("welcome-title").textContent = "Cuentas bancarias";
+            document.getElementById("titular").value = fullName;
+        }
+
+    </script>
+
+}
+
+

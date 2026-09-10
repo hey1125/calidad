@@ -1,0 +1,18 @@
+﻿CREATE PROCEDURE [dbo].[CRE_ROLE_PR]
+    @P_Name NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM dbo.TBL_Rol WHERE Name = @P_Name)
+    BEGIN
+        RAISERROR('DUPLICATE_ROLE', 16, 1);
+        RETURN;
+    END
+
+    INSERT INTO dbo.TBL_Rol (Created, Name)
+    VALUES (GETDATE(), @P_Name);
+
+    SELECT SCOPE_IDENTITY() AS NewId;
+END
+GO

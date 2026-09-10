@@ -1,0 +1,18 @@
+﻿/****** Object:  Table [dbo].[TBL_Rol]    Script Date: 14/07/2025 11:15:12 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TBL_Rol](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Updated] [datetime] NULL,
+	[Name] [nvarchar](10) NOT NULL,
+ CONSTRAINT [PK_TBL_Rol] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO

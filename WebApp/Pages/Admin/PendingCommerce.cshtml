@@ -1,0 +1,28 @@
+﻿@page
+@model WebApp.Pages.Private.PendingCommerceModel
+@{
+    ViewData["Title"] = "Comercios Pendientes";
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Comercios Pendientes de Aprobar</h2>
+
+    <div class="admin-table-container">
+        <table id="tblComerciosPendientes" class="table table-bordered align-middle text-center"
+               ColumnsDataName="cedulaJuridica,nombre,estado">
+            <thead class="table-light">
+                <tr>
+                    <th>Cédula Jurídica</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/PendingCommerce.js"></script>
+}

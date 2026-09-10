@@ -1,0 +1,28 @@
+﻿@page
+@model WebApp.Pages.Admin.RejectedBanksModel
+@{
+    ViewData["Title"] = "Bancos Rechazados";
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Entidades Financieras Rechazadas</h2>
+
+    <div class="admin-table-container">
+        <table id="tblBancosRechazados" class="table table-bordered align-middle text-center"
+               ColumnsDataName="legalId,bankCode,name,status">
+            <thead class="table-light">
+                <tr>
+                    <th>Cédula Jurídica</th>
+                    <th>Código Banco</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/RejectedBanks.js"></script>
+}

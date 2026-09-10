@@ -1,0 +1,183 @@
+﻿@page
+@model WebApp.Pages.User.PaymentHistoryModel
+@{
+    ViewData["Title"] = "Historial de Pagos";
+    Layout = "~/Pages/Shared/_UserLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4 text-center">¡Bienvenido Usuario!</h2>
+
+            <!-- Mensaje de error/info -->
+            <div id="alertContainer" style="display: none;">
+                <div id="alertMessage" class="alert" role="alert"></div>
+            </div>
+
+            <!-- Tarjetas de estadísticas -->
+            <div class="row mb-4" id="statsCards">
+                <div class="col-md-4">
+                    <div class="card text-center h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 id="totalPaid" class="card-title text-primary">₡0</h3>
+                            <p class="card-text">Total Pagado</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 id="totalPayments" class="card-title text-success">0</h3>
+                            <p class="card-text">Pagos Realizados</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100 shadow-sm">
+                        <div class="card-body">
+                            <h3 id="totalDiscounts" class="card-title text-warning">₡0</h3>
+                            <p class="card-text">Descuentos Obtenidos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de filtros -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Filtros de Búsqueda</h5>
+                </div>
+                <div class="card-body">
+                    <form id="frmFilters">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="startDate" class="form-label">Fecha Inicial:</label>
+                                <input type="date" id="startDate" name="startDate" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="endDate" class="form-label">Fecha Final:</label>
+                                <input type="date" id="endDate" name="endDate" class="form-control" />
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="button" id="btnFilter" class="btn btn-primary me-2">Filtrar</button>
+                                <button type="button" id="btnClear" class="btn btn-outline-secondary">Limpiar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Historial de Pagos -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Historial de Pagos</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Loading indicator -->
+                    <div id="loadingIndicator" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2">Cargando historial de pagos...</p>
+                    </div>
+
+                    <!-- Tabla de pagos -->
+                    <div id="paymentsTableContainer" style="display: none;">
+                        <div class="table-responsive">
+                            <table id="paymentsTable" class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Monto Original</th>
+                                        <th>Monto Final</th>
+                                        <th>Descuento o Promo</th>
+                                        <th>Comercio</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentsTableBody">
+                                    <!-- Datos se llenan con JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Resumen al final de la tabla -->
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <p class="text-muted">
+                                    <strong>Total de registros:</strong> <span id="recordCount">0</span> pagos encontrados
+                                </p>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <p class="text-muted">
+                                    <strong>Monto total:</strong> <span id="summaryTotal">₡0</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mensaje cuando no hay pagos -->
+                    <div id="noPaymentsMessage" style="display: none;">
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                <i class="fas fa-credit-card" style="font-size: 3rem; color: #6c757d;"></i>
+                            </div>
+                            <h5 class="text-muted">Aún no has realizado ningún pago</h5>
+                            <p class="text-muted">
+                                Cuando realices pagos a través de BilleTico, aparecerán aquí tu historial completo.
+                            </p>
+                            <a href="/User/Pay" class="btn btn-primary">
+                                Realizar mi primer pago
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/controlactions.js"></script>
+    <script src="~/js/pages/PaymentHistory.js"></script>
+    <script>
+        // Inicializar el controlador cuando carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            var paymentHistoryCtrl = new PaymentHistoryController();
+            paymentHistoryCtrl.InitView();
+        });
+    </script>
+}
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table th {
+        border-top: none;
+        font-weight: 600;
+    }
+
+    .badge {
+        font-size: 0.75em;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .table-responsive {
+            font-size: 0.875rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>

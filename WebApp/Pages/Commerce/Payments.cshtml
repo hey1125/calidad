@@ -1,0 +1,68 @@
+﻿@page
+@model WebApp.Pages.Commerce.PaymentsModel
+@{
+    ViewData["Title"] = "Registrar Cobro";
+    Layout = "~/Pages/Shared/_CommerceLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Registrar nuevo cobro</h2>
+
+    <form id="frmCobro" class="card p-4 shadow-sm">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="txtNationalId" class="form-label">Cédula del usuario</label>
+                <input type="text" class="form-control" id="txtNationalId"/>
+            </div>
+            <div class="col-md-6">
+                <label for="txtFullName" class="form-label">Nombre completo</label>
+                <input type="text" class="form-control" id="txtFullName" readonly />
+            </div>
+            <div class="col-md-6">
+                <label for="txtAmount" class="form-label">Monto total (₡)</label>
+                <input type="number" class="form-control" id="txtAmount" min="0" step="0.01" />
+            </div>
+            <div class="col-md-6">
+                <label for="txtCommission" class="form-label">Comisión BilleTico (₡)</label>
+                <input type="text" class="form-control" id="txtCommission" readonly />
+            </div>
+            <div class="col-md-12">
+                <label for="txtDescription" class="form-label">Descripción del cobro</label>
+                <textarea class="form-control" id="txtDescription" rows="2" maxlength="200"></textarea>
+            </div>
+        </div>
+
+        <div class="mt-4 text-end">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+        <h4 class="mb-0">Historial de cobros</h4>
+        <button class="btn btn-outline-primary btn-sm" id="btnRefresh">Actualizar</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered" id="tblCobros">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cédula</th>
+                    <th>Monto total</th>
+                    <th>Comisión BilleTico</th>
+                    <th>Ganancia neta</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody id="tblCobrosBody"></tbody>
+        </table>
+        <div id="noCobrosMessage" class="alert alert-info mt-3 d-none text-center">
+            No hay cobros registrados aún.
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/CommercePayments.js"></script>
+}

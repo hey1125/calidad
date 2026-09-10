@@ -1,0 +1,71 @@
+﻿@page
+@model WebApp.Pages.Public.LoginOTPValidationModel
+@{
+    ViewData["Title"] = "Iniciar Sesión - Validacion";
+}
+<style>
+    .justify-content-center {
+        justify-content: center !important;
+        min-height: 70vh !important;
+        margin-top: 9rem !important;
+    }
+</style>
+
+<!-- HEADER personalizado -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" asp-page="/Public/Index">
+                <img src="~/img/logo-billetico.png" alt="Logo BilleTico" style="height: 40px;" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" asp-page="/Public/Index">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-success fw-bold" asp-page="/Public/Login">Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm rounded-4">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Validar OTP</h2>
+
+                    <form id="frmLoginOTP">
+                        <div class="mb-3">
+                            <label for="otp" class="form-label">Código OTP</label>
+                            <input type="text" class="form-control" id="otp" name="otp" ColumnDataName="otp" required>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button id="btnValidateLogin" type="button" class="btn btn-primary btn-lg px-5 rounded-pill" onclick="loginValidateOTPCtrl.LoginValidateOTP()">Validar</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/controlactions.js"></script>
+    <script src="~/js/pages/LoginValidateOTP.js"></script>
+    <script>
+        var loginValidateOTPCtrl = new LoginValidateOTPController();
+    </script>
+}

@@ -1,0 +1,186 @@
+﻿@page
+@model WebApp.Pages.Public.RegistroModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<style>
+    body {
+        color: black;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 2rem; 
+    }
+
+
+    .form-control,
+    .form-control:focus,
+    .form-select,
+    .form-select:focus,
+    .form-control[type="file"] {
+        border-radius: 50px;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .map-placeholder {
+        max-width: 240px;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-next {
+        background-color: #0b1e51;
+        color: white;
+        border-radius: 50px;
+        padding: 0.75rem 2rem;
+    }
+
+    .btn-next:hover {
+        background-color: #0b1e51;
+        color: white;
+    }
+</style>
+<div class="container d-flex flex-column justify-content-center pt-3">
+    <div class="row justify-content-center">
+            <div class="form-container mx-5 col-md-8 col-lg-6 p-5 ">
+
+                <!-- Title -->
+                <h1 class="text-center mb-4">Registro</h1>
+
+                <!-- Form -->
+                <div>
+                    <!-- Cédula -->
+                    <div class="mb-4">
+                        <label for="Cedula" class="form-label">Cédula</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="Cedula"
+                               name="Cedula"
+                               placeholder="1-1111-1111" />
+                    </div>
+
+                    <!-- Nombre -->
+                    <div class="mb-4">
+                        <label for="Nombre" class="form-label">Nombre</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="Nombre"
+                               name="Nombre"
+                               placeholder="Jhon" />
+                    </div>
+
+                    <!-- Primer Apellido -->
+                    <div class="mb-4">
+                        <label for="Apellido1" class="form-label">Primer Apellido</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="Apellido1"
+                               name="Apellido1"
+                               placeholder="James" />
+                    </div>
+
+                    <!-- Segundo Apellido -->
+                    <div class="mb-4">
+                        <label for="Apellido2" class="form-label">Segundo Apellido</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="Apellido2"
+                               name="Apellido2"
+                               placeholder="Topuria" />
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div class="mb-4">
+                        <label for="Telefono" class="form-label">Teléfono</label>
+                        <input type="tel"
+                               class="form-control form-control-lg"
+                               id="Telefono"
+                               name="Telefono"
+                               placeholder="8888-8888" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="email"
+                               class="form-control form-control-lg"
+                               id="Email"
+                               name="Email"
+                               placeholder="tu-email@gmail.com" />
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="mb-4">
+                        <label for="Password" class="form-label">Contraseña</label>
+                        <input type="password"
+                               class="form-control form-control-lg"
+                               id="Password"
+                               name="Password"
+                               placeholder="************" />
+                    </div>
+
+                    <!-- Fecha de nacimiento -->
+                    <div class="mb-4">
+                        <label for="FechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                        <input type="date"
+                               class="form-control form-control-lg"
+                               id="FechaNacimiento"
+                               name="FechaNacimiento"
+                               value="2025-10-10" />
+                    </div>
+
+                    <!-- Ubicación -->
+                    <div class="mb-4">
+                        <label class="form-label d-block">Ubicación</label>
+                        <div id="map" style="height: 300px;"></div>
+                        <input type="hidden" name="latitude" id="txtLatitude" />
+                        <input type="hidden" name="longitude" id="txtLongitude" />
+                    </div>
+
+                    <!-- Cédula Frente -->
+                    <div class="mb-4">
+                        <label for="CedulaFrente" class="form-label">Cédula Frente</label>
+                        <input type="file"
+                               class="form-control form-control-lg"
+                               id="inputCedulaFrente"
+                               name="CedulaFrente"
+                               accept="image/*" />
+                    </div>
+
+                    <!-- Cédula Reverso -->
+                    <div class="mb-4">
+                        <label for="CedulaReverso" class="form-label">Cédula Reverso</label>
+                        <input type="file"
+                               class="form-control form-control-lg"
+                               id="inputCedulaReverso"
+                               name="CedulaReverso"
+                               accept="image/*" />
+                    </div>
+
+                    <!-- Siguiente Button -->
+                    <div class="text-center mt-5">
+                        <button id="btnSiguiente" type="submit" class="btn btn-next btn-lg">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="~/js/pages/controlactions.js"></script>
+    <script src="~/js/pages/Register.js"></script>
+}

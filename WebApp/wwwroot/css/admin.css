@@ -1,0 +1,111 @@
+﻿/* ---------- SIDEBAR ---------- */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background-color: #06142b;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0); /* siempre visible en escritorio */
+    z-index: 1045;
+}
+
+/* Sidebar colapsable en móviles */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%); /* oculta por defecto */
+    }
+
+        .sidebar.show {
+            transform: translateX(0); /* se muestra al hacer toggle */
+        }
+
+    #page-content-wrapper {
+        padding: 1rem;
+    }
+
+    .admin-table-container {
+        padding: 1rem .5rem;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+        .admin-table-container table {
+            width: 100% !important;
+        }
+}
+
+/* ---------- CONTENIDO GENERAL ---------- */
+#page-content-wrapper {
+    background-color: #e9ecef;
+    padding: 2rem;
+    min-height: 100dvh;
+}
+
+/* ---------- MENÚ LATERAL (LIST GROUP) ---------- */
+.list-group-item {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+    .list-group-item:hover {
+        background-color: #003366;
+        color: white;
+    }
+
+    /* Estado activo: solo texto amarillo */
+    .list-group-item.active {
+        background: transparent !important;
+        color: #f7c948 !important;
+    }
+
+/* ---------- CERRAR SESIÓN ---------- */
+.logout-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .logout-link:hover {
+        text-decoration: underline;
+    }
+
+/* ---------- TABLAS ADMIN ---------- */
+.admin-table-container {
+    margin: auto;
+    max-width: 100%;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+    .admin-table-container table {
+        width: 100% !important;
+    }
+
+    .admin-table-container .table th,
+    .admin-table-container .table td {
+        vertical-align: middle;
+        text-align: center;
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+
+/* ---------- FOOTER ---------- */
+.custom-footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 1rem;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+

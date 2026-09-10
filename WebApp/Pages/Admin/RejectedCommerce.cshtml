@@ -1,0 +1,27 @@
+﻿@page
+@model WebApp.Pages.Admin.RejectedCommerceModel
+@{
+    ViewData["Title"] = "Comercios Rechazados";
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Comercios Rechazados</h2>
+
+    <div class="admin-table-container">
+        <table id="tblComerciosRechazados" class="table table-bordered align-middle text-center"
+               ColumnsDataName="cedulaJuridica,nombre,estado">
+            <thead class="table-light">
+                <tr>
+                    <th>Cédula Jurídica</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/RejectedCommerce.js"></script>
+}

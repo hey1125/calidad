@@ -1,0 +1,8 @@
+﻿CREATE TABLE TBL_Bank_Account (
+    account_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    bank_id INT NOT NULL,
+    iban VARCHAR(34) NOT NULL UNIQUE,
+    created DATETIME NOT NULL DEFAULT GETDATE(),
+    updated DATETIME NOT NULL DEFAULT GETDATE()
+);

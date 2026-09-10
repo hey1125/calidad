@@ -1,0 +1,122 @@
+﻿@page
+@model WebApp.Pages.Bank.PromotionsModel
+@{
+    ViewData["Title"] = "Promociones";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-center mb-4">Promociones de Entidad Financiera</h2>
+
+    <!-- Formulario de creación / edición (SIN input financialEntityId; se toma del URL) -->
+    <div class="row mb-4">
+        <div class="col-md-10 offset-md-1">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 id="fe-form-title" class="card-title mb-3">Crear promoción</h5>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Código de Promoción</label>
+                            <input type="text" class="form-control" id="FePromoId" placeholder="Código único" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Inicio</label>
+                            <input type="datetime-local" class="form-control" id="StartDate" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Fin</label>
+                            <input type="datetime-local" class="form-control" id="EndDate" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Monto Mínimo</label>
+                            <input type="number" step="0.01" class="form-control" id="MinAmount" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">% Descuento</label>
+                            <input type="number" step="0.01" class="form-control" id="AmountPercentage" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Descuento fijo</label>
+                            <input type="number" step="0.01" class="form-control" id="AmountDiscount" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Total cupones</label>
+                            <input type="number" class="form-control" id="TotalCoupon" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Cupones usados</label>
+                            <input type="number" class="form-control" id="UsedCoupon" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Estado</label>
+                            <select id="Status" class="form-select">
+                                <option value="Activa">Activa</option>
+                                <option value="Inactiva">Inactiva</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" id="Description" rows="1" placeholder="Opcional"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 g-2">
+                        <div class="col-md-4">
+                            <button id="btn-save" class="btn btn-success w-100">
+                                <i class="fa-solid fa-floppy-disk me-1"></i> Guardar
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btn-reset" class="btn btn-outline-secondary w-100">
+                                <i class="fa-solid fa-rotate-left me-1"></i> Limpiar formulario
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btn-cancel-edit" class="btn btn-warning w-100 d-none">
+                                <i class="fa-solid fa-ban me-1"></i> Cancelar edición
+                            </button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="EditingId" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <h4 class="text-center mb-3">Promociones</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center" id="promos-table">
+            <thead>
+                <tr>
+                    <th>FePromoId</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Min</th>
+                    <th>%</th>
+                    <th>Fijo</th>
+                    <th>Cupones</th>
+                    <th>Estado</th>
+                    <th>Descuento Efectivo*</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="promos-body"></tbody>
+        </table>
+    </div>
+
+    <div id="noPromosMessage" class="alert alert-info text-center d-none">
+        No hay promociones para la entidad indicada.
+    </div>
+
+    <p class="text-muted small mt-2">* Si no indicas monto en el cálculo, se mostrará el descuento fijo.</p>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/BankPromotions.js"></script>
+}

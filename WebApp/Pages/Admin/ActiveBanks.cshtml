@@ -1,0 +1,29 @@
+﻿@page
+@model WebApp.Pages.Admin.ActiveBanksModel
+@{
+    ViewData["Title"] = "Bancos Activos";
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Entidades Financieras Activas</h2>
+
+    <div class="admin-table-container">
+        <table id="tblBancosActivos" class="table table-bordered align-middle text-center"
+               ColumnsDataName="legalId,bankCode,name,status,commissionRate">
+            <thead class="table-light">
+                <tr>
+                    <th>Cédula Jurídica</th>
+                    <th>Código Banco</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Comisión</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/ActiveBanks.js"></script>
+}

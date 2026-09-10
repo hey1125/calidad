@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - BilleTico</title>
+
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.5/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- jQuery primero -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- DataTables core -->
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
+    <!-- DataTables Responsive plugin -->
+    <script src="https://cdn.datatables.net/responsive/3.0.5/js/dataTables.responsive.min.js"></script>
+
+    <!-- Bootstrap JS (después de jQuery y DataTables) -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Tu JS -->
+    <script src="~/js/pages/controlactions.js"></script>
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- SIDEBAR -->
+
+        <button id="sidebarToggle"
+                class="btn btn-outline-light d-md-none position-fixed top-0 start-0 m-2 z-3"
+                type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="sidebar d-flex flex-column justify-content-between" id="sidebarMenu">
+            <div>
+                <div class="text-center py-3">
+                    <a asp-page="/Public/Index" class="d-block">
+                        <img src="~/img/logo-billetico.png" alt="Logo BilleTico" style="height: 40px;" />
+                    </a>
+                </div>
+
+
+                @{
+                    var bankId = Context.Request.Query["bankId"];
+                    var route = Context.Request.Path;
+                }
+
+                <div class="list-group list-group-flush">
+                    <a asp-page="/Bank/Dashboard" asp-route-bankId="@bankId" class="list-group-item @(route.ToString().StartsWith("/Bank/Dashboard") ? "active" : "")">Inicio</a>
+                    <a asp-page="/Bank/Promotions" asp-route-bankId="@bankId" class="list-group-item @(route.ToString().StartsWith("/Bank/Promotions") ? "active" : "")">Promociones</a>
+                </div>
+            </div>
+
+            <div class="text-center py-3">
+                <a asp-page="/User/ActiveBanks" class="logout-link">Volver</a>
+            </div>
+
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div id="page-content-wrapper" class="flex-fill">
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        // Toggle sidebar en móvil
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.getElementById('sidebarMenu').classList.toggle('show');
+        });
+
+        // Función para cerrar sesión
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "/Public/Login";
+        }
+    </script>
+
+</body>
+</html>

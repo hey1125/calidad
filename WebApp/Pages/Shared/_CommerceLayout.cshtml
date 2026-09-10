@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - BilleTico</title>
+
+
+    <!--Cambios en cshtml - prueba commit -->
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.5/css/responsive.dataTables.min.css">
+
+    <!-- jQuery primero -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- DataTables core -->
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- DataTables Responsive plugin -->
+    <script src="https://cdn.datatables.net/responsive/3.0.5/js/dataTables.responsive.min.js"></script>
+
+    <!-- Bootstrap JS (después de jQuery y DataTables) -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Tu JS -->
+    <script src="~/js/pages/controlactions.js"></script>
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- SIDEBAR -->
+
+        <button id="sidebarToggle"
+                class="btn btn-outline-light d-md-none position-fixed top-0 start-0 m-2 z-3"
+                type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="sidebar d-flex flex-column justify-content-between" id="sidebarMenu">
+            <div>
+                <div class="text-center py-3">
+                    <a asp-page="/Public/Index" class="d-block">
+                        <img src="~/img/logo-billetico.png" alt="Logo BilleTico" style="height: 40px;" />
+                    </a>
+                </div>
+
+                @{
+                    var commerceId = Context.Request.Query["commerceId"];
+                    var route = Context.Request.Path;
+                }
+
+                <div class="list-group list-group-flush">
+                    <a asp-page="/Commerce/Dashboard" asp-route-commerceId="@commerceId" class="list-group-item @(route.ToString().StartsWith("/Commerce/Dashboard") ? "active" : "")">Inicio</a>
+                    
+                    
+                    <a asp-page="/Commerce/Payments" asp-route-commerceId="@commerceId" class="list-group-item @(route.ToString().StartsWith("/Commerce/Payments") ? "active" : "")">Cobros</a>
+
+
+                    <a id="link-promotions" asp-page="/Commerce/Promotions" asp-route-commerceId="@commerceId"
+                       class="list-group-item @(route.ToString().StartsWith("/Commerce/Promotions") ? "active" : "")"
+                       style="display:none;">Promociones</a>
+
+                    <a id="link-roles" asp-page="/Commerce/Roles" asp-route-commerceId="@commerceId"
+                       class="list-group-item @(route.ToString().StartsWith("/Commerce/Roles") ? "active" : "")"
+                       style="display:none;">Roles</a>
+                </div>
+
+            </div>
+            <div class="text-center py-3">
+                <a asp-page="/User/ActiveCommerce" class="logout-link">Volver</a>
+            </div>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div id="page-content-wrapper" class="w-100">
+            <main class="pt-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="custom-footer text-center py-3 border-top">
+        <small class="text-muted">
+            &copy; 2025 <strong>BilleTico</strong>. Todos los derechos reservados. &nbsp;–&nbsp;
+            Desarrollado por el equipo <strong>CodeStream</strong>.
+        </small>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        const sidebar = document.getElementById('sidebarMenu');
+        const toggleBtn = document.getElementById('sidebarToggle');
+
+        toggleBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('show');
+        });
+
+        // Detecta clics fuera del sidebar y del botón para cerrarlo
+        document.addEventListener('click', function (e) {
+            const isClickInsideSidebar = sidebar.contains(e.target);
+            const isClickToggleBtn = toggleBtn.contains(e.target);
+
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile && !isClickInsideSidebar && !isClickToggleBtn && sidebar.classList.contains('show')) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+         
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const user = JSON.parse(localStorage.getItem("user"));
+          const commerceId = new URLSearchParams(location.search).get("commerceId");
+          if (!user || !user.id || !commerceId) return;
+
+          const ctrl = new ControlActions();
+          ctrl.GetToApi(`FinalUserCommerceRol/RetrieveAdminById?userId=${user.id}&commerceId=${commerceId}`, (res) => {
+            const isAdmin = res?.isAdmin === true || res === true || res === "true";
+            if (isAdmin) {
+              document.getElementById("link-promotions")?.style.setProperty("display", "block");
+              document.getElementById("link-roles")?.style.setProperty("display", "block");
+            }
+          });
+        });
+    </script>
+
+</body>
+
+</html>

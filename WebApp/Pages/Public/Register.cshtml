@@ -1,0 +1,235 @@
+@page
+@model WebApp.Pages.Public.RegisterModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<style>
+    .form-section {
+        display: none;
+    }
+
+    .text-end {
+        text-align: center !important;
+    }
+
+    .mt-3 {
+        margin-top: 4rem !important;
+        margin-bottom: 4rem !important;
+    }
+</style>
+
+<!-- HEADER personalizado -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" asp-page="/Public/Index">
+                <img src="~/img/logo-billetico.png" alt="Logo BilleTico" style="height: 40px;" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" asp-page="/Public/Index">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-success fw-bold" asp-page="/Public/Login">Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5 pt-5">
+    <h2 class="text-center mb-4">Registro de Cuenta</h2>
+
+    <!-- BOTONES -->
+    <div class="text-center mb-4">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-primary" onclick="showForm('final')">Usuario Final</button>
+            <button class="btn btn-outline-success" onclick="showForm('commerce')">Comercio</button>
+            <button class="btn btn-outline-warning" onclick="showForm('bank')">Entidad Bancaria</button>
+        </div>
+    </div>
+
+    <!-- FORMULARIOS -->
+    <!-- Usuario Final -->
+    <div id="final" class="form-section">
+        <form id="finalUserForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Cédula</label>
+                    <input type="text" class="form-control" id="Cedula">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="Nombre">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Primer Apellido</label>
+                    <input type="text" class="form-control" id="Apellido1">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="Apellido2">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="Telefono">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="Email">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="Password">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" id="FechaNacimiento">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Ubicación</label>
+                    <div id="map" style="height: 300px;"></div>
+                    <input type="hidden" id="txtLatitude" />
+                    <input type="hidden" id="txtLongitude" />
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Comercio -->
+    <div id="commerce" class="form-section">
+        <form id="commerceForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Cédula Jurídica</label>
+                    <input type="text" class="form-control" id="coLegalId">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nombre del comercio</label>
+                    <input type="text" class="form-control" id="coName" >
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="coPhone" >
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="coEmail" >
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">IBAN</label>
+                    <input type="text" class="form-control" id="coIBAN" >
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Cédula del Administrador</label>
+                    <input type="text" class="form-control" id="coNationalId">
+                </div>
+                <div class="col-md">
+                    <p>¡Importante!: Si la cédula del administrador no se encuentra en el sistema, la solicitud será rechazada.</p>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Ubicación</label>
+                    <div id="coMap" style="height: 300px;"></div>
+                    <input type="hidden" id="coLatitude" />
+                    <input type="hidden" id="coLongitude" />
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-success" id="btnGuardarCo">Registrar Comercio</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Entidad Bancaria -->
+    <div id="bank" class="form-section">
+        <form id="bankForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Cédula Jurídica</label>
+                    <input type="text" class="form-control" id="baLegalId">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Código de banco</label>
+                    <input type="text" class="form-control" id="baBankCode">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="baName">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="baEmail">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="baPhone">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Cédula del Administrador</label>
+                    <input type="text" class="form-control" id="baNationalId">
+                </div>
+                <div class="col-md">
+                    <p>¡Importante!: Si la cédula del administrador no se encuentra en el sistema, la solicitud será rechazada.</p>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Ubicación</label>
+                    <div id="baMap" style="height: 300px;"></div>
+                    <input type="hidden" id="baLatitude" />
+                    <input type="hidden" id="baLongitude" />
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="button" class="btn btn-warning" id="btnGuardarBank">Registrar Banco</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Scripts funcionales -->
+    <script src="~/js/pages/ControlActions.js"></script>
+    <script src="~/js/pages/finaluserregister.js" asp-append-version="true"></script>
+    <script src="~/js/pages/commerceregister.js"></script>
+    <script src="~/js/pages/finantialentityregister.js"></script>
+
+    <!-- Script para cambiar de formulario -->
+    <script>
+        function showForm(formId) {
+            document.querySelectorAll('.form-section').forEach(section => section.style.display = 'none');
+            document.getElementById(formId).style.display = 'block';
+
+            const maps = {
+                "final": "fuMap",
+                "commerce": "coMap",
+                "bank": "baMap"
+            };
+
+            const mapId = maps[formId];
+            if (mapId && window[mapId + "_leaflet"]) {
+                setTimeout(() => {
+                    window[mapId + "_leaflet"].invalidateSize();
+                }, 200);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            showForm('final');
+        });
+    </script>
+}

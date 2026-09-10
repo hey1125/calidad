@@ -1,0 +1,87 @@
+﻿@page
+@model WebApp.Pages.Admin.BankRequestModel
+@{
+    ViewData["Title"] = "Revisión de Entidad Financiera";
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Revisión de Solicitud de Entidad Financiera</h2>
+
+    <div class="admin-table-container">
+        <form id="frmBanco">
+            <!-- Campos ocultos necesarios para el API -->
+            <input type="hidden" ColumnDataName="id" />
+            <input type="hidden" ColumnDataName="status" />
+            <input type="hidden" ColumnDataName="created" />
+            <input type="hidden" ColumnDataName="updated" />
+            <input type="hidden" ColumnDataName="latitude" />
+            <input type="hidden" ColumnDataName="longitude" />
+            <input type="hidden" ColumnDataName="commissionRate" />
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Cédula Jurídica:</label>
+                <input type="text" class="form-control" ColumnDataName="legalId" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Código Bancario:</label>
+                <input type="text" class="form-control" ColumnDataName="bankCode" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nombre de la Entidad:</label>
+                <input type="text" class="form-control" ColumnDataName="name" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Correo:</label>
+                <input type="email" class="form-control" ColumnDataName="email" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Teléfono:</label>
+                <input type="text" class="form-control" ColumnDataName="phone" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Cédula del Administrador:</label>
+                <input type="text" class="form-control" ColumnDataName="nationalId" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Ubicación de la Entidad:</label>
+                <div id="map" style="height: 400px; border-radius: 10px;"></div>
+            </div>
+
+            <!-- Opciones de decisión -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Decisión:</label>
+                <select id="selectDecision" class="form-select">
+                    <option value="">Seleccione una opción</option>
+                    <option value="aprobar">Aprobar</option>
+                    <option value="rechazar">Rechazar</option>
+                </select>
+            </div>
+
+            <!-- Comisión solo si se aprueba -->
+            <div class="mb-3 d-none" id="comisionGroup">
+                <label for="commissionRate" class="form-label">Comisión (%)</label>
+                <input type="number"
+                       class="form-control"
+                       id="commissionRate"
+                       step="0.01"
+                       min="0.01"
+                       placeholder="Ej: 2.5">
+            </div>
+
+            <div class="text-end">
+                <button type="button" class="btn btn-secondary me-2" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/bankrequest.js"></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+}

@@ -1,0 +1,40 @@
+﻿@page
+@model WebApp.Pages.User.UserPaymentsModel
+@{
+    ViewData["Title"] = "Pagos";
+    Layout = "_UserLayout";
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="mb-0"><i class="fa-solid me-2"></i>Mis pagos pendientes</h2>
+        <button id="btnRefrescar" class="btn btn-outline-primary">
+            <i class="fa-solid fa-rotate-right"></i> Refrescar
+        </button>
+    </div>
+
+    <div class="alert alert-info d-flex align-items-center" role="alert" id="userInfo" style="display:none;"></div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table id="tblPayments" class="display nowrap table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Comercio</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Creado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/UserPayments.js" asp-append-version="true"></script>
+}

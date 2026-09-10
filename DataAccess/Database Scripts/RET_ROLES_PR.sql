@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE [dbo].[RET_ROLES_PR]
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT Id, Name
+    FROM dbo.TBL_Rol
+    ORDER BY Name;
+END
+GO

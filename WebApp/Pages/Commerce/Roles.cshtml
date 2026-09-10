@@ -1,0 +1,65 @@
+﻿@page
+@model WebApp.Pages.Commerce.RolesModel
+@{
+    ViewData["Title"] = "Gestión de Empleados";
+    Layout = "~/Pages/Shared/_CommerceLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Crear Roles</h2>
+    <div class="input-group">
+        <input id="txtNewRoleName" type="text" class="form-control" placeholder="Nombre del nuevo rol" />
+        <input id="txtNewRoleCedula" type="text" class="form-control" placeholder="Cédula del usuario" />
+        <button id="btnCreateAssignRole" class="btn btn-outline-primary">Crear y asignar</button>
+    </div>
+    
+    <div class="form-text">Se creará el rol (si no existe) y se asignará a la cédula indicada.</div>
+    <br>
+    <h2>Agregar Roles</h2>
+
+    <div class="input-group mb-3">
+        <input id="txtCedula" type="text" class="form-control" placeholder="Digite la cédula del empleado" />
+        <button id="btnAssignRole" class="btn btn-warning">Agregar Roles</button>
+
+    </div>
+
+    <div id="alertMessage" class="alert" style="display:none;"></div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="ddlIntermedio" class="form-label">Selecciona un rol</label>
+            <select id="ddlIntermedio" class="form-select">
+                <option value="" selected disabled>Seleccione un rol...</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            
+        </div>
+    </div>
+    </div>
+
+    <h3 class="mt-4">Empledos Registrados</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                
+                <th style="width: 120px;">Acción</th>
+            </tr>
+        </thead>
+        <tbody id="tblRoles">
+            <tr><td colspan="5" class="text-center text-muted">Sin empleados</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="~/js/pages/Roles.js"></script>
+<script>
+    const RolesCtrl = new RolesController();
+    $(document).ready(() => RolesCtrl.InitView());
+</script>
+
+

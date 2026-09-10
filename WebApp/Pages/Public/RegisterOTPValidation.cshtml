@@ -1,0 +1,84 @@
+﻿@page
+@model WebApp.Pages.Public.RegisterOTPValidationModel
+@{
+    ViewData["Title"] = "Registro - Validación OTP";
+}
+
+<style>
+    .justify-content-center {
+        justify-content: center !important;
+        min-height: 70vh !important;
+        margin-top: 9rem !important;
+    }
+</style>
+
+<!-- HEADER personalizado -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" asp-page="/Public/Index">
+                <img src="~/img/logo-billetico.png" alt="Logo BilleTico" style="height: 40px;" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold active" asp-page="/Public/Index">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-success fw-bold" asp-page="/Public/Login">Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm rounded-4">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Validación OTP</h2>
+
+                    <!-- OTP -->
+                    <p>Para activar tu cuenta, ingresa el código 123456.</p>
+                    <div class="mb-3">
+                        <label for="OTP" class="form-label">Código OTP</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="OTP"
+                               name="OTP"
+                               placeholder="123456" />
+                    </div>
+
+                    <!-- Selfie para usuarios registrados con foto de cédula -->
+                    <div class="mb-3 d-none" id="selfieContainer">
+                        <label for="Selfie" class="form-label">Selfie</label>
+                        <input type="file"
+                               class="form-control form-control-lg"
+                               id="inputSelfie"
+                               name="Selfie"
+                               accept="image/*" />
+                    </div>
+
+                    <!-- Validar Button -->
+                    <div class="text-center mt-4">
+                        <button id="btnValidateOTP" class="btn btn-primary btn-lg px-5 rounded-pill">
+                            Validar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pages/controlactions.js"></script>
+    <script src="~/js/pages/registerotpvalidation.js" asp-append-version="true"></script>
+}

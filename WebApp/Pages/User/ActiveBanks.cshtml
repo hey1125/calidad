@@ -1,0 +1,26 @@
+﻿@page
+@model WebApp.Pages.User.ActiveBanksModel
+@{
+    ViewData["Title"] = "Bancos Registrados";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 fw-bold">Bancos Registrados</h2>
+
+    <div class="row" id="banksContainer">
+        <!-- Las tarjetas se cargarán dinámicamente aquí -->
+    </div>
+
+    <!-- Mensaje cuando no hay bancos -->
+    <div id="noBanksMessage" class="text-center mt-5 d-none">
+        <div class="alert">
+            <h5>No tienes entidades bancarias activas</h5>
+            <p>Las entidades financieras aparecerán aquí una vez que sean aprobadas por el administrador.</p>
+            <a href="/User/CreateBank" class="btn btn-primary">Registrar Nueva Entidad</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/ActiveBanksUser.js"></script>
+}

@@ -1,0 +1,28 @@
+﻿@page
+@model WebApp.Pages.Admin.ActiveCommerceModel
+@{
+    ViewData["Title"] = "Comercios Activos";
+}
+
+<div class="admin-page-wrapper">
+    <h2 class="fw-bold text-center mb-4">Comercios Activos</h2>
+
+    <div class="admin-table-container">
+        <table id="tblComerciosActivos" class="table table-bordered align-middle text-center"
+               ColumnsDataName="cedulaJuridica,nombre,estado,comision">
+            <thead class="table-light">
+                <tr>
+                    <th>Cédula Jurídica</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Comisión</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/pages/ActiveCommerce.js"></script>
+}
