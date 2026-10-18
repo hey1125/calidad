@@ -1,0 +1,14 @@
+﻿C:\Users\josed\source\repos\calidad\DTOs\BankAccount.cs
+C:\Users\josed\source\repos\calidad\DTOs\BaseDTO.cs
+C:\Users\josed\source\repos\calidad\DTOs\Commerce.cs
+C:\Users\josed\source\repos\calidad\DTOs\CommercePromotion.cs
+C:\Users\josed\source\repos\calidad\DTOs\ConfirmPaymentRequest.cs
+C:\Users\josed\source\repos\calidad\DTOs\FinalUser.cs
+C:\Users\josed\source\repos\calidad\DTOs\FinalUserCommerceRol.cs
+C:\Users\josed\source\repos\calidad\DTOs\FinalUserFinancialEntittyRol.cs
+C:\Users\josed\source\repos\calidad\DTOs\FinancialEntity.cs
+C:\Users\josed\source\repos\calidad\DTOs\FinancialEntityPromotion.cs
+C:\Users\josed\source\repos\calidad\DTOs\OTPVerification.cs
+C:\Users\josed\source\repos\calidad\DTOs\Payment.cs
+C:\Users\josed\source\repos\calidad\DTOs\Rol.cs
+C:\Users\josed\source\repos\calidad\DTOs\UploadFileRequest.cs

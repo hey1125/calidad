@@ -1,0 +1,53 @@
+﻿C:\Users\josed\source\repos\calidad\DataAccess\CRUD\BankAccountCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\CommerceCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\CommercePromotionCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\CrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\FinalUserCommerceRolCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\FinalUserCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\FinalUserFinancialEntityRolCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\FinancialEntityCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\FinancialEntityPromotionCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\OTPVerificationCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\PaymentCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\RoleCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\CRUD\RolesCrudFactory.cs
+C:\Users\josed\source\repos\calidad\DataAccess\DAO\SqlDao.cs
+C:\Users\josed\source\repos\calidad\DataAccess\DAO\SqlOperations.cs
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\ADD_CASHIER_BY_CEDULA_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\ADD_CASHIER_TO_COMMERCE_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\CRE_FINALUSER_COMMERCE_ROL_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\CRE_FINALUSER_FINANCIALENTITY_ROL_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\CRE_FINALUSER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\CRE_FINANCIAL_ENTITY_RETURN_ID_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\CRE_ROLE_AND_ASSIGN_TO_USER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\CRE_ROLE_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\DEL_CASHIER_FROM_COMMERCE_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\DEL_FINALUSER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\DEL_OTP_VERIFICATION_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_ALL_FINALUSER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_CASHIERS_BY_COMMERCE_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_COMMERCES_BY_USER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_FINALUSER_BY_EMAIL_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_FINALUSER_BY_ID_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_FINALUSER_BY_NATIONALID_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_FINANCIALENTITIES_BY_USER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_OTP_VERIFICATION_BY_ID_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_OTP_VERIFICATION_BY_USERID_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_ROLES_BY_COMMERCE_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_ROLES_BY_USER_BANK_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_ROLES_BY_USER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_ROLES_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\RET_USER_ROLE_IN_COMMERCE_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\SEED_DEMO_ADMIN.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\SP_BankAccount.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\SP_Commerce.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\SP_FinancialEntity.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_BankAccount.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_Commerce.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_FinalUser.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_FinalUserCommerce_Rol.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_FinalUserFinancialEntity_Rol.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_OTP_Verification.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\TBL_Rol.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\UPD_FINALUSER_PR.sql
+C:\Users\josed\source\repos\calidad\DataAccess\Database Scripts\UPD_OTP_VERIFICATION_PR.sql

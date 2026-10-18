@@ -76,15 +76,7 @@ namespace DataAccess.CRUD
             return null;
         }
 
-        /*public void Confirm(int id, string iban, string? coPromoId, string? fePromoId)
-        {
-            var op = new SqlOperation() { ProcedureName = "CONFIRM_PAYMENT_PR" };
-            op.AddIntParam("P_Id", id);
-            op.AddStringParameter("P_IBAN", iban);
-            op.AddStringParameter("P_CoPromoId", string.IsNullOrWhiteSpace(coPromoId) ? null : coPromoId);
-            op.AddStringParameter("P_FePromoId", string.IsNullOrWhiteSpace(fePromoId) ? null : fePromoId);
-            _sqlDao.ExecuteProcedure(op);
-        }*/
+        
 
         public override void Update(BaseDTO baseDTO)
         {

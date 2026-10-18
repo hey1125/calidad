@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
                 var manager = new RolesManager();
 
                 // Evitar que el admin se asigne a sí mismo (opcional, si envías el userId logueado):
-                // if (manager.IsSameUser(nationalId, loggedUserId)) return BadRequest("No puedes agregarte a ti mismo.");
+                
 
                 manager.AddCashierByNationalId(nationalId, commerceId, roleId);
                 return Ok(new { message = "Rol asignado correctamente." });

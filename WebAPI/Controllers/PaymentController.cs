@@ -376,29 +376,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        // (Dejalo si querés para más adelante; arreglé la regex)
-        /*[HttpPut]
-        [Route("Confirm")]
-        public ActionResult Confirm([FromBody] ConfirmPaymentRequest req)
-        {
-            try
-            {
-                if (req == null) return BadRequest("Request requerido.");
-                if (req.Id <= 0) return BadRequest("Id inválido.");
-                if (string.IsNullOrWhiteSpace(req.IBAN)) return BadRequest("IBAN requerido.");
-                if (!Regex.IsMatch(req.IBAN, @"^[A-Z]{2}\d{20}$")) return BadRequest("IBAN inválido (CR + 20 dígitos).");
-                if (!string.IsNullOrWhiteSpace(req.CoPromoId) && !string.IsNullOrWhiteSpace(req.FePromoId))
-                    return BadRequest("Solo se permite una promo (comercio o financiera).");
-
-                var pm = new PaymentManager();
-                pm.ConfirmPayment(req);
-                return Ok(new { message = "Pago confirmado." });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error confirmando pago: {ex.Message}");
-            }
-        }*/
+        
 
         // Obtener por ID
         [HttpGet]

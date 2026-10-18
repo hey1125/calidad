@@ -84,20 +84,7 @@ namespace Core.Managers
             return _crud.Confirm(req.Id, req.IBAN.ToUpperInvariant(), req.CoPromoId, req.FePromoId);
         }
 
-        /*public void ConfirmPayment(ConfirmPaymentRequest req)
-        {
-            // Validaciones mínimas
-            if (req == null) throw new ArgumentNullException(nameof(req));
-            if (req.Id <= 0) throw new Exception("Id inválido.");
-            if (string.IsNullOrWhiteSpace(req.IBAN)) throw new Exception("IBAN requerido.");
-            // ✅ regex corregida
-            if (!Regex.IsMatch(req.IBAN, @"^[A-Z]{2}\d{20}$")) throw new Exception("IBAN inválido (CR + 20 dígitos).");
-            if (!string.IsNullOrWhiteSpace(req.CoPromoId) && !string.IsNullOrWhiteSpace(req.FePromoId))
-                throw new Exception("Solo se permite una promo (comercio o financiera).");
-
-            // Delega a la BD (cuando implementes el SP de confirmación)
-            _crud.Confirm(req.Id, req.IBAN, req.CoPromoId, req.FePromoId);
-        }*/
+        
 
         // Cambiar estado (ej. de Pendiente -> Pagado / Rechazado)
         public void UpdateStatus(int id, string newStatus)

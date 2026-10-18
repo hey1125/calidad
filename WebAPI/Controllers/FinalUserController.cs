@@ -19,41 +19,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class FinalUserController : ControllerBase
     {
-        /*
-         {
-  "id": 0,
-  "created": "2025-07-10T06:15:43.048Z",
-  "updated": "2025-07-10T06:15:43.048Z",
-  "nationalId": "117980889",
-  "firstName": "string",
-  "lastName1": "string",
-  "lastName2": "string",
-  "passwordHash": "P4ssrword!",
-  "phone": "88888888",
-  "email": "string@email.com",
-  "dateOfBirth": "2000-07-10T06:15:43.048Z",
-  "locationLat": 0.01,
-  "locationLng": 0.01,
-  "selfieUrl": "https://res.cloudinary.com/billetico/image/upload/v1752467717/Users/egxmj6i5nqt8xahpyprn.jpg",
-  "facialVerificationPassed": true,
-  "profilePhotoUrl": "string.png",
-  "idCardFrontPhotoUrl": "https://res.cloudinary.com/billetico/image/upload/v1752467914/Users/sq4vufzkonyelmqqx0ui.jpg",
-  "idCardBackPhotoUrl": "https://res.cloudinary.com/billetico/image/upload/v1752467717/Users/ferj2urr3rw6l9ellvqa.jpg",
-  "status": "string"
-}
-        {
-  "url": "https://res.cloudinary.com/billetico/image/upload/v1752467717/Users/egxmj6i5nqt8xahpyprn.jpg",
-  "publicId": "Users/egxmj6i5nqt8xahpyprn"
-}
-    {
-  "url": "https://res.cloudinary.com/billetico/image/upload/v1752467717/Users/ferj2urr3rw6l9ellvqa.jpg",
-  "publicId": "Users/ferj2urr3rw6l9ellvqa"
-}
-        {
-  "url": "https://res.cloudinary.com/billetico/image/upload/v1752467914/Users/sq4vufzkonyelmqqx0ui.jpg",
-  "publicId": "Users/sq4vufzkonyelmqqx0ui"
-}
-         */
+        
         [HttpPost]
         [Route("Create")]
         public ActionResult Create(FinalUser finalUser)
