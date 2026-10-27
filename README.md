@@ -1,4 +1,4 @@
-# BilleTico: pruebas automatizadas de la API (Etapa 1)
+# BilleTico: pruebas automatizadas de la API
 
 Pruebas de API para el curso Calidad, Verificación y Validación de Software.
 Escritas en **TypeScript** con **Vitest** y **Axios**. Cubren 18 endpoints con 54 casos de prueba
