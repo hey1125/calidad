@@ -1,8 +1,8 @@
 # BilleTico: pruebas automatizadas de la API
 
 Pruebas de API para el curso Calidad, Verificación y Validación de Software.
-Escritas en **TypeScript** con **Vitest** y **Axios**. Cubren 18 endpoints con 54 casos de prueba
-(positivos y negativos), más 5 pruebas de defectos conocidos que se ejecutan por separado.
+Escritas en **TypeScript** con **Vitest** y **Axios**. Cubren 23 endpoints con 72 casos de prueba
+(positivos y negativos), más 6 pruebas de defectos conocidos que se ejecutan por separado.
 
 ## Requisitos
 
@@ -20,13 +20,16 @@ npm install
 npm test
 ```
 
+Antes de la primera corrida, ejecutar una vez `sql/seed_financial_entity.sql` en SQL Server
+(crea el banco de prueba 987 que usan las pruebas de entidades financieras).
+
 | Comando | Qué hace |
 |---|---|
-| `npm test` | Corre las 54 pruebas principales |
+| `npm test` | Corre las 72 pruebas principales |
 | `npm run test:verbose` | Igual, mostrando el nombre de cada prueba |
 | `npm run test:watch` | Vuelve a correr las pruebas al guardar cambios |
 | `npm run test:report` | Corre las pruebas y genera el reporte HTML y `reports/main/junit.xml` |
-| `npm run test:defects` | Corre las 5 pruebas de defectos conocidos (**se espera que fallen**) |
+| `npm run test:defects` | Corre las 6 pruebas de defectos conocidos (**se espera que fallen**) |
 | `npm run test:defects:report` | Igual, y genera `reports/defects/junit.xml` |
 | `npm run report:open` | Abre en el navegador el reporte HTML de la última corrida con reporte |
 | `npm run typecheck` | Revisa los tipos de TypeScript sin ejecutar nada |
@@ -62,19 +65,25 @@ ApiTests/
 │   │   ├── finalUser.api.ts
 │   │   ├── commerce.api.ts
 │   │   ├── commercePromotion.api.ts
-│   │   └── payment.api.ts
+│   │   ├── payment.api.ts
+│   │   ├── financialEntity.api.ts
+│   │   └── financialEntityPromotion.api.ts
 │   ├── types/                     Forma de las respuestas (interfaces)
 │   ├── fixtures/                  Datos de prueba (usuarios, comercios, promociones, pagos)
 │   └── helpers/
 │       ├── assertions.ts          Aserciones reutilizables
-│       └── promotionBuilder.ts    Builder de promociones válidas
+│       ├── promotionBuilder.ts    Builder de promociones válidas
+│       └── fePromotionBuilder.ts  Builder de promociones de banco
 ├── tests/
 │   ├── smoke.test.ts
 │   ├── finalUser/                 login.test.ts, retrieveByNationalId.test.ts
 │   ├── commerce/                  commerceRead.test.ts
 │   ├── commercePromotion/         promotionRead.test.ts, promotionLifecycle.test.ts
 │   ├── payment/                   paymentRead.test.ts
-│   └── defects/                   security.defect.ts, validation.defect.ts
+│   ├── financialEntity/           financialEntityRead.test.ts
+│   ├── financialEntityPromotion/  fePromotionRules.test.ts
+│   └── defects/                   security, validation, financialEntity (.defect.ts)
+├── sql/seed_financial_entity.sql  Banco de prueba 987
 ├── vitest.config.ts               Pruebas principales
 ├── vitest.defects.config.ts       Pruebas de defectos (comando aparte)
 └── tsconfig.json
@@ -85,10 +94,12 @@ ApiTests/
 - **Cada prueba valida el status code y el body** (campos y valores correctos, o el mensaje de error exacto).
 - **Positivos y negativos** en cada grupo: datos válidos, recursos inexistentes (404), parámetros
   inválidos (400), credenciales incorrectas (401).
-- **Identificadores trazables:** `TC-LOGIN-xx`, `TC-USER-xx`, `TC-COM-xx`, `TC-PROMO-xx`, `TC-PAY-xx`.
+- **Identificadores trazables:** `TC-LOGIN-xx`, `TC-USER-xx`, `TC-COM-xx`, `TC-PROMO-xx`, `TC-PAY-xx`, `TC-FE-xx`, `TC-FEP-xx`.
 - **Lectura primero:** la mayoría de las pruebas solo consulta. Las únicas que escriben son las del
   ciclo crear, actualizar y eliminar de promociones (`promotionLifecycle.test.ts`), que usan el
   comercio 2, y todo lo que crean se elimina al terminar, incluso si una prueba falla.
+  Las pruebas de promociones de banco (`fePromotionRules.test.ts`) crean sus promociones en el banco
+  987 y las eliminan al terminar; si una corrida anterior se interrumpió, limpian los restos al iniciar.
 - **Aislamiento de datos:** los archivos de prueba corren en paralelo. Las lecturas de promociones usan
   los comercios 1 y 3, y las escrituras usan el 2, así que no se afectan entre sí.
 - **Sin correos ni SMS reales:** `messagingGuard` bloquea los endpoints que usan SendGrid, Twilio o
@@ -102,6 +113,10 @@ ApiTests/
   Mantenerlo en una carpeta y un comando distintos deja `npm test` en verde y permite mostrar los
   fallos en la demostración.
 
+- **Reglas de negocio de promociones de banco:** la mejor promoción es la de mayor descuento,
+  `max(monto × %, descuento fijo)`; solo aplican las `Activa`, con cupones disponibles y monto mínimo alcanzado.
+  Se prueban montos que hacen ganar al porcentaje (20000), al descuento fijo (8000) y montos bajo el mínimo.
+
 ## Cobertura
 
 | Controlador | Endpoints probados | Casos |
@@ -110,8 +125,10 @@ ApiTests/
 | Commerce | RetrieveActive, RetrieveById, RetrieveByLegalId, RetrievePending | 8 |
 | CommercePromotion | RetrieveBestByCommerce, RetrieveActiveByCommerce, RetrieveAllByCommerce, RetrieveById, Create, Update, Delete | 19 |
 | Payment | GetUserHistoryPayment, GetById, GetCommercePayments, GetBankPayments, GetBankStats | 15 |
+| FinancialEntity | RetrieveByBankCode, RetrieveById | 5 |
+| FinancialEntityPromotion | Create, RetrieveBestByIBAN, RetrieveActiveByIBAN (reglas de negocio) | 13 |
 | Smoke | Swagger disponible | 1 |
-| **Total** | **18 endpoints** | **54** |
+| **Total** | **23 endpoints** | **72** |
 
 ## Datos de prueba requeridos
 
@@ -121,6 +138,8 @@ La base de datos local **BilleTico** debe contener:
 - 3 comercios activos (ids 1 a 3) con cédulas jurídicas `3101000001` a `3101000003`
 - 1 promoción activa `JMETER-PROMO` en el comercio 1
 - 40 pagos en el comercio 1: 5 pagadores por 8 pagos (6 `Pagado` y 2 `Pendiente` cada uno)
+- 1 entidad financiera con código bancario `987` (la crea `sql/seed_financial_entity.sql`). Sus promociones
+  las crean y eliminan las mismas pruebas
 
 Los valores exactos están en `src/fixtures/`. Los scripts en `PruebasRendimiento/sql` generan parte
 de estos datos.
@@ -134,9 +153,12 @@ de estos datos.
 | DEF-03 | Un rango de fechas invertido se acepta | Responde 200 con lista vacía en lugar de 400 |
 | DEF-04 | Eliminar una promoción inexistente reporta éxito | Responde 200 `true` en lugar de 404 |
 | DEF-05 | Estadísticas de un banco sin pagos provocan error 500 | `Object cannot be cast from DBNull to other types.` |
+| DEF-06 | Registrar un banco con datos inválidos responde 500 | Correo inválido devuelve 500 en lugar de 400 |
 
 Otros hallazgos de la revisión del código (sin prueba automatizada): llaves de servicios externos
-guardadas en `appsettings.json`, cadena de conexión con contraseña escrita en `SqlDao.cs`, y las
+guardadas en `appsettings.json`, cadena de conexión con contraseña escrita en `SqlDao.cs`, el código de entidades financieras lee una columna `NationalId` que
+la tabla y sus procedimientos no tienen (toda consulta de un banco existente respondía 500; lo corrige
+`sql/seed_financial_entity.sql`), y las
 ramas de "no hay comercios activos/pendientes" del controlador de comercios que nunca se ejecutan.
 
 ## Convenciones de Git
