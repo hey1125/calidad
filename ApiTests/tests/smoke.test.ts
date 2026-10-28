@@ -1,13 +1,17 @@
-import axios from 'axios';
-import https from 'node:https';
 import { describe, it, expect } from 'vitest';
+import { request } from '../src/http/httpClient';
 
-const BASE = process.env.API_BASE_URL ?? 'https://localhost:7163';
-const agent = new https.Agent({ rejectUnauthorized: false }); // local dev certificate only
+interface SwaggerDocument {
+  paths: Record<string, unknown>;
+}
 
 describe('smoke', () => {
   it('Swagger document is reachable and lists Login', async () => {
-    const res = await axios.get(`${BASE}/swagger/v1/swagger.json`, { httpsAgent: agent });
+    const res = await request<SwaggerDocument>({
+      method: 'GET',
+      url: '/swagger/v1/swagger.json',
+    });
+
     expect(res.status).toBe(200);
     expect(res.data.paths).toHaveProperty('/api/FinalUser/Login');
   });

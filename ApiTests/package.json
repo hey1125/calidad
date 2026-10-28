@@ -1,8 +1,7 @@
 {
   "name": "billetico-api-tests",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Automated functional API tests for BilleTico using TypeScript, Vitest, and Axios.",
   "directories": {
     "test": "tests"
   },
@@ -17,7 +16,6 @@
     "report:open": "vite preview --outDir .vitest --open"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
