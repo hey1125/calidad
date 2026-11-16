@@ -19,7 +19,10 @@ namespace DataAccess.DAO
 
         private SqlDao()
         {
-            _connectionString = "Server=localhost;Database=BilleTico;Trusted_Connection=True;TrustServerCertificate=True;";
+            // La cadena se puede cambiar con la variable de entorno BILLETICO_DB (por ejemplo, para LocalDB).
+            // Si no esta definida, se usa la instancia local por defecto, como antes.
+            _connectionString = Environment.GetEnvironmentVariable("BILLETICO_DB")
+                ?? @"Server=(localdb)\MSSQLLocalDB;Database=BilleTico;Trusted_Connection=True;TrustServerCertificate=True;";
         }
 
         //Paso 3: Definir el metodo que expondrá la instancia de la clase SqlDao.
