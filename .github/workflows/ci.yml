@@ -1,0 +1,178 @@
+# Caso de Estudio #3 - BISOFT-17
+# Pipeline de Integración Continua de BilleTico:
+#   compilación + análisis estático (SonarQube) + pruebas API (Vitest) con cobertura + quality gate.
+#
+# Corre en un runner SELF-HOSTED de Windows (la PC del equipo) porque SonarQube
+# (http://localhost:9000) y la base SQL Server "BilleTico" solo existen ahí.
+# Configuración del runner, secretos y protección de rama: ver la documentación técnica del Caso #3.
+
+name: CI - Calidad BilleTico
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, caso3, 'testing*']
+  workflow_dispatch:
+
+# Si llega un commit nuevo a la misma rama, se cancela la corrida anterior
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  API_PORT: '5199'                       # distinto de 7163/5032 para no chocar con Visual Studio
+  API_BASE_URL: http://localhost:5199
+  SONAR_PROJECT_KEY: BilleTico
+  COVERAGE_SESSION: billetico-ci
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  calidad:
+    name: Build + SonarQube + Pruebas API
+    # Seguridad: un PR desde un fork NO corre en la PC del equipo
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, windows]
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: powershell
+
+    steps:
+      - name: 1. Checkout del código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # SonarQube necesita el historial completo (blame / código nuevo)
+
+      - name: 2. Verificar herramientas del runner
+        run: |
+          dotnet --version
+          node --version
+          npm --version
+
+      - name: 3. Instalar SonarScanner y dotnet-coverage
+        run: |
+          dotnet tool update dotnet-sonarscanner --tool-path .tools
+          dotnet tool update dotnet-coverage --tool-path .tools
+          "$env:GITHUB_WORKSPACE\.tools" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+
+      - name: 4. SonarQube - iniciar análisis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || 'http://localhost:9000' }}
+        run: |
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE\coverage" | Out-Null
+          dotnet-sonarscanner begin `
+            /k:"$env:SONAR_PROJECT_KEY" `
+            /n:"BilleTico" `
+            /v:"${{ github.sha }}" `
+            /d:sonar.host.url="$env:SONAR_HOST_URL" `
+            /d:sonar.token="$env:SONAR_TOKEN" `
+            /d:sonar.cs.vscoveragexml.reportsPaths="$env:GITHUB_WORKSPACE\coverage\api-coverage.xml" `
+            /d:sonar.exclusions="**/wwwroot/lib/**,**/node_modules/**,**/bin/**,**/obj/**,ApiTests/reports/**,ApiTests/.vitest/**,PruebasRendimiento/**" `
+            /d:sonar.coverage.exclusions="ApiTests/**,DevTester/**,WebApp/**" `
+            /d:sonar.qualitygate.wait=true `
+            /d:sonar.qualitygate.timeout=300
+
+      - name: 5. Compilar la solución (Release)
+        run: dotnet build BilleTico.sln -c Release --no-incremental
+
+      - name: 6. Instalar dependencias de las pruebas API
+        working-directory: ApiTests
+        run: npm ci
+
+      - name: 7. Revisar tipos de TypeScript de las pruebas
+        working-directory: ApiTests
+        run: npm run typecheck
+
+      - name: 8. Levantar la WebAPI con recolección de cobertura
+        working-directory: WebAPI
+        run: |
+          $out = "$env:GITHUB_WORKSPACE\coverage\api-coverage.xml"
+          dotnet-coverage collect --session-id $env:COVERAGE_SESSION --server-mode --background -f xml -o $out
+          $env:ASPNETCORE_URLS = $env:API_BASE_URL   # puerto de CI (la API hereda esta variable)
+          dotnet-coverage connect --background $env:COVERAGE_SESSION dotnet "bin\Release\net8.0\WebAPI.dll"
+
+          # Esperar hasta 90 s a que Swagger responda
+          $ok = $false
+          for ($i = 0; $i -lt 45; $i++) {
+            try {
+              $r = Invoke-WebRequest -UseBasicParsing "$env:API_BASE_URL/swagger/v1/swagger.json" -TimeoutSec 5
+              if ($r.StatusCode -eq 200) { $ok = $true; break }
+            } catch { Start-Sleep -Seconds 2 }
+          }
+          if (-not $ok) { Write-Error "La WebAPI no respondió en $env:API_BASE_URL"; exit 1 }
+          Write-Host "WebAPI arriba en $env:API_BASE_URL"
+
+      - name: 9. Ejecutar pruebas API (54 casos)
+        id: api_tests
+        continue-on-error: true   # se registra el resultado en SonarQube y se falla al final
+        working-directory: ApiTests
+        run: npm run test:report
+
+      - name: 10. Ejecutar pruebas de defectos conocidos (fallan a propósito)
+        continue-on-error: true
+        working-directory: ApiTests
+        run: npm run test:defects:report
+
+      - name: 11. Detener la WebAPI y guardar la cobertura
+        if: always()
+        run: |
+          dotnet-coverage shutdown $env:COVERAGE_SESSION
+          Get-NetTCPConnection -LocalPort $env:API_PORT -State Listen -ErrorAction SilentlyContinue |
+            ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }
+          if (Test-Path "$env:GITHUB_WORKSPACE\coverage\api-coverage.xml") { Write-Host "Cobertura generada." }
+          else { Write-Warning "No se generó el archivo de cobertura." }
+
+      - name: 12. SonarQube - publicar análisis y esperar quality gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
+
+      - name: 13. Resumen de resultados
+        if: always()
+        run: |
+          function Resumen($path, $titulo) {
+            if (-not (Test-Path $path)) { return "| $titulo | sin reporte | - | - |" }
+            [xml]$x = Get-Content $path
+            $s = $x.testsuites
+            $fallos = [int]$s.failures + [int]$s.errors
+            return "| $titulo | $($s.tests) | $([int]$s.tests - $fallos) | $fallos |"
+          }
+          $md = @(
+            "## Resultados del pipeline",
+            "",
+            "| Suite | Casos | Exitosos | Fallidos |",
+            "|---|---|---|---|",
+            (Resumen "ApiTests\reports\main\junit.xml" "Pruebas API"),
+            (Resumen "ApiTests\reports\defects\junit.xml" "Defectos conocidos (se espera que fallen)"),
+            "",
+            "SonarQube: ${{ vars.SONAR_HOST_URL || 'http://localhost:9000' }}/dashboard?id=$env:SONAR_PROJECT_KEY"
+          )
+          $md -join "`n" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+
+      - name: 14. Subir reportes como evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencias-ci-${{ github.run_number }}
+          path: |
+            ApiTests/reports/
+            ApiTests/.vitest/
+            ApiTests/html/
+            coverage/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: 15. Verificar resultado de las pruebas API
+        if: always()
+        run: |
+          if ("${{ steps.api_tests.outcome }}" -ne "success") {
+            Write-Error "Fallaron pruebas API: no se permite integrar a main."
+            exit 1
+          }
+          Write-Host "Todas las pruebas API pasaron."
