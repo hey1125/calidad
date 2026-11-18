@@ -3,7 +3,7 @@ export const users = {
     active: {
         id: 1,
         nationalId: '111111111',
-        firstName: 'Esteban',
+        firstName: 'Estebann',
         email: 'ruizesteban@gmail.com',
         password: 'Prueba123',
     },
